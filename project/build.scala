@@ -20,13 +20,19 @@ object ReadingsBuild extends Build {
       name := Name,
       version := Version,
       scalaVersion := ScalaVersion,
-      resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/",
+      resolvers ++= Seq(
+        "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/",
+        "Sonatype Releases" at "http://oss.sonatype.org/content/repositories/releases"
+      ),
       libraryDependencies ++= Seq(
         "org.scalatra" %% "scalatra" % ScalatraVersion,
         "org.scalatra" %% "scalatra-scalate" % ScalatraVersion,
         "org.scalatra" %% "scalatra-specs2" % ScalatraVersion % "test",
         "ch.qos.logback" % "logback-classic" % "1.0.6" % "runtime",
         "org.eclipse.jetty" % "jetty-webapp" % "8.1.8.v20121106" % "container",
+        "com.typesafe" % "slick_2.10" % "1.0.0-RC1",
+        "postgresql" % "postgresql" % "9.1-901.jdbc4",
+        "c3p0" % "c3p0" % "0.9.1.2", /* for connection pooling */
         "org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" % "container;provided;test" artifacts (Artifact("javax.servlet", "jar", "jar"))
       ),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
