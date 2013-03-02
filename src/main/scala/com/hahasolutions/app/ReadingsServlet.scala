@@ -135,8 +135,9 @@ class ReadingsServlet extends ScalatraServlet with SlickSupport with JacksonJson
         dt <- d.deviceType
       } yield (d.mac_addr.asColumnOf[String], dt.name.asColumnOf[String])
 
-      contentType = "text/html"
-      q3.list.map { case (s1, s2) => "Device with Mac Addr  " + s1 + " of type " + s2 } mkString "<br />"
+      // send the json response 
+      contentType = formats("json")
+      q3.list.map { case (s1, s2) => Map("MacAddr" -> s1, "DeviceType" -> s2) }
     }
   }
 
@@ -148,8 +149,9 @@ class ReadingsServlet extends ScalatraServlet with SlickSupport with JacksonJson
         dt <- d.deviceType
       } yield (r.value, d.mac_addr.asColumnOf[String], dt.name.asColumnOf[String])
 
-      contentType = "text/html"
-      q3.list.map { case (s0, s1, s2) => "Reading of " + s0 + " for the device with Mac Addr  " + s1 + " of type " + s2 } mkString "<br />"
+      // send the json response 
+      contentType = formats("json")
+      q3.list.map { case (s0, s1, s2) => Map("Reading" -> s0, "MacAddr" -> s1, "DeviceType" -> s2) }
     }
   }
 
@@ -161,8 +163,9 @@ class ReadingsServlet extends ScalatraServlet with SlickSupport with JacksonJson
         dt <- d.deviceType
       } yield (r.value, d.mac_addr.asColumnOf[String], dt.name.asColumnOf[String])
 
-      contentType = "text/html"
-      q3.list.map { case (s0, s1, s2) => "Reading of " + s0 + " for the device with Mac Addr  " + s1 + " of type " + s2 } mkString "<br />"
+      // send the json response 
+      contentType = formats("json")
+      q3.list.map { case (s0, s1, s2) => Map("Reading" -> s0, "MacAddr" -> s1, "DeviceType" -> s2) }
     }
   }
 
