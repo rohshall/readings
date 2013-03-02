@@ -28,6 +28,8 @@ object ReadingsBuild extends Build {
         "org.scalatra" %% "scalatra" % ScalatraVersion,
         "org.scalatra" %% "scalatra-scalate" % ScalatraVersion,
         "org.scalatra" %% "scalatra-specs2" % ScalatraVersion % "test",
+        "org.scalatra" %% "scalatra-json" % "2.2.0",
+        "org.json4s"   %% "json4s-jackson" % "3.1.0",
         "ch.qos.logback" % "logback-classic" % "1.0.6" % "runtime",
         "org.eclipse.jetty" % "jetty-webapp" % "8.1.8.v20121106" % "container",
         "com.typesafe" % "slick_2.10" % "1.0.0-RC1",

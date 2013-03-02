@@ -9,6 +9,9 @@ import com.mchange.v2.c3p0.ComboPooledDataSource
 import java.util.Properties
 import org.slf4j.LoggerFactory
 
+import org.json4s.{DefaultFormats, Formats}
+import org.scalatra.json._
+
 import scala.slick.driver.PostgresDriver.simple._
 import Database.threadLocalSession
 
@@ -89,7 +92,10 @@ trait SlickSupport extends ScalatraServlet {
   }
 }
 
-class ReadingsServlet extends ScalatraServlet with SlickSupport {
+class ReadingsServlet extends ScalatraServlet with SlickSupport with JacksonJsonSupport {
+  // Sets up automatic case class to JSON output serialization, required by
+  // the JValueResult trait.
+  protected implicit val jsonFormats: Formats = DefaultFormats
 
   get("/db/create-tables") {
     db withSession {
@@ -144,6 +150,33 @@ class ReadingsServlet extends ScalatraServlet with SlickSupport {
 
       contentType = "text/html"
       q3.list.map { case (s0, s1, s2) => "Reading of " + s0 + " for the device with Mac Addr  " + s1 + " of type " + s2 } mkString "<br />"
+    }
+  }
+
+  get("/devices/:device_mac_addr/readings") {
+    db withSession {
+      val q3 = for {
+        r <- Readings
+        d <- r.device if d.mac_addr === params("device_mac_addr")
+        dt <- d.deviceType
+      } yield (r.value, d.mac_addr.asColumnOf[String], dt.name.asColumnOf[String])
+
+      contentType = "text/html"
+      q3.list.map { case (s0, s1, s2) => "Reading of " + s0 + " for the device with Mac Addr  " + s1 + " of type " + s2 } mkString "<br />"
+    }
+  }
+
+  post("/devices/:device_mac_addr/readings") {
+    db withSession {
+      val date = new Date
+      val timestamp = new Timestamp(date.getTime)
+      // For parsedBody to work, content type should be application/json 
+      val value = (parsedBody \ "value").extract[String]
+      val reading = Reading(None, params("device_mac_addr"), value, timestamp)
+      Readings.forInsert.insert(reading)
+      // send the json response 
+      contentType = formats("json")
+      Map("status" -> "ok")
     }
   }
 }
