@@ -1,4 +1,4 @@
-package com.hahasolutions.app
+package com.hahasolutions
 
 import org.scalatra.ScalatraServlet
 
@@ -137,7 +137,7 @@ class ReadingsServlet extends ScalatraServlet with SlickSupport with JacksonJson
 
       // send the json response 
       contentType = formats("json")
-      q3.list.map { case (s1, s2) => Map("MacAddr" -> s1, "DeviceType" -> s2) }
+      q3.list.map { case (s1, s2) => Map("mac_addr" -> s1, "device_type" -> s2) }
     }
   }
 
@@ -151,7 +151,7 @@ class ReadingsServlet extends ScalatraServlet with SlickSupport with JacksonJson
 
       // send the json response 
       contentType = formats("json")
-      q3.list.map { case (s0, s1, s2) => Map("Reading" -> s0, "MacAddr" -> s1, "DeviceType" -> s2) }
+      q3.list.map { case (s0, s1, s2) => Map("reading" -> s0, "mac_addr" -> s1, "device_type" -> s2) }
     }
   }
 
@@ -165,7 +165,7 @@ class ReadingsServlet extends ScalatraServlet with SlickSupport with JacksonJson
 
       // send the json response 
       contentType = formats("json")
-      q3.list.map { case (s0, s1, s2) => Map("Reading" -> s0, "MacAddr" -> s1, "DeviceType" -> s2) }
+      q3.list.map { case (s0, s1, s2) => Map("reading" -> s0, "mac_addr" -> s1, "device_type" -> s2) }
     }
   }
 

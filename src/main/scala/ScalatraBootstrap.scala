@@ -1,4 +1,4 @@
-import com.hahasolutions.app._
+import com.hahasolutions._
 import org.scalatra._
 import javax.servlet.ServletContext
 
